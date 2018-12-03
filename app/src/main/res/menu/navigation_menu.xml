@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+    <group android:checkableBehavior="single">
+        <item android:title="Pets">
+            <menu>
+                <group android:id="@+id/pets">
+                    <item
+                        android:id="@+id/action_dogs"
+                        android:icon="@drawable/dog"
+                        android:title="Dogs" />
+
+                    <item
+                        android:id="@+id/action_cats"
+                        android:icon="@drawable/cat"
+                        android:title="Cats" />
+
+                    <item
+                        android:id="@+id/action_other"
+                        android:icon="@drawable/other"
+                        android:title="All" />
+
+                    <item
+                        android:id="@+id/action_favorites"
+                        android:icon="@drawable/ic_favorite_black_24dp"
+                        android:title="Favorites" />
+                </group>
+            </menu>
+        </item>
+        <item android:title="Admin">
+            <menu>
+                <group android:id="@+id/admin">
+                    <item
+                        android:id="@+id/action_add_pet"
+                        android:icon="@drawable/ic_add_circle_outline_black_24dp"
+                        android:title="Add Pet" />
+
+                    <item
+                        android:id="@+id/action_add_pet_store"
+                        android:icon="@drawable/ic_add_circle_outline_black_24dp"
+                        android:title="Add Pet Store" />
+                </group>
+            </menu>
+        </item>
+    </group>
+</menu>

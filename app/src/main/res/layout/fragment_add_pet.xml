@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/standard_margin"
+        tools:context=".views.AddPetFragment"
+        tools:ignore="HardcodedText">
+
+        <android.support.design.widget.LabeledTextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name" />
+        </android.support.design.widget.LabeledTextInputLayout>
+
+        <android.support.design.widget.LabeledTextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_animal_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Animal Type" />
+        </android.support.design.widget.LabeledTextInputLayout>
+
+        <android.support.design.widget.LabeledTextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description" />
+        </android.support.design.widget.LabeledTextInputLayout>
+
+        <TextView
+            style="@style/TextView.InputLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pet Store" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/pet_store_spinner"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/TextView.InputLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Images" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/open_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Take new image" />
+
+        <Button
+            android:id="@+id/open_file"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose Image" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
