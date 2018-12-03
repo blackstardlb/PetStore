@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import nl.blackstardlb.petstore.helpers.ErrorNotifier;
 import nl.blackstardlb.petstore.views.MainApplication;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -51,7 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void notifyError(Throwable error) {
-        // TODO
+        ErrorNotifier.notifyError(this, error);
     }
 
     public void notifyMessage(String message) {

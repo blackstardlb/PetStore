@@ -20,6 +20,7 @@ import nl.blackstardlb.petstore.R;
 import nl.blackstardlb.petstore.services.UserManager;
 import nl.blackstardlb.petstore.viewmodels.LoginViewModel;
 import nl.blackstardlb.petstore.views.base.BaseFragment;
+import nl.blackstardlb.petstore.views.base.LoadingDialogFragment;
 
 public class LoginFragment extends BaseFragment {
     @BindView(R.id.password)
@@ -45,17 +46,24 @@ public class LoginFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         setUnbinder(ButterKnife.bind(this, view));
-        addDisposable(loginViewModel.getLoginModelBehaviorSubject().observeOn(AndroidSchedulers.mainThread()).subscribe(this::updateViews));
+        addDisposable(loginViewModel.getLoginModelBehaviorSubject().observeOn(AndroidSchedulers.mainThread()).subscribe(this::updateViews, this::notifyError));
         return view;
     }
 
     @OnClick(R.id.login_button)
     void onLoginButtonClick() {
+        LoadingDialogFragment loadingDialogFragment = LoadingDialogFragment.startFor(getFragmentManager(), null);
         addDisposable(userManager
                 .signIn(emailAddressEditText.getText().toString(), passwordEditText.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::quitActivity, this::notifyError));
+                .subscribe(() -> {
+                    loadingDialogFragment.dismiss();
+                    quitActivity();
+                }, error -> {
+                    loadingDialogFragment.dismiss();
+                    notifyError(error);
+                }));
     }
 
     private void quitActivity() {

@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import javax.inject.Inject;
 
 import butterknife.Unbinder;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import nl.blackstardlb.petstore.helpers.ErrorNotifier;
 import nl.blackstardlb.petstore.views.MainApplication;
 
 public abstract class BaseFragment extends Fragment {
@@ -60,7 +60,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void notifyError(Throwable error) {
-        Log.e("Error", error.toString());
+        ErrorNotifier.notifyError(getContext(), error);
     }
 
     public void notifyMessage(String message) {

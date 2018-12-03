@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -90,6 +91,9 @@ public class PetDetailsFragment extends BaseFullScreenDialogFragment implements 
 
     @BindView(R.id.fl_map_holder)
     protected FrameLayout mapHolder;
+
+    @BindView(R.id.fab_favorite)
+    protected FloatingActionButton floatingActionButton;
 
     private Pet pet;
     private MainActivityViewModel mainActivityViewModel;
@@ -182,8 +186,20 @@ public class PetDetailsFragment extends BaseFullScreenDialogFragment implements 
                             }
                         }, this::showError);
                 addDisposable(disposable1);
+
+                Disposable disposable2 = viewModel.isFavorited(pet).subscribe(this::toggleFab, this::showError);
+                addDisposable(disposable2);
+
             }, this::showError);
             addDisposable(disposable);
+        }
+    }
+
+    private void toggleFab(boolean isFavorited) {
+        if (isFavorited) {
+            floatingActionButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+        } else {
+            floatingActionButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
         }
     }
 
@@ -214,6 +230,16 @@ public class PetDetailsFragment extends BaseFullScreenDialogFragment implements 
         alertDialog.setMessage("Are you sure you want to delete " + pet.getName() + " forever?");
         alertDialog.create().show();
     }
+
+    @OnClick(R.id.fab_favorite)
+    protected void onFavorieteClicked() {
+        Disposable disposable = viewModel.toggleFavoriet(pet).subscribe(isFavorited -> {
+            Log.d("TEST", "onFavorieteClicked: favorited");
+            toggleFab(isFavorited);
+        }, this::showError);
+        addDisposable(disposable);
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

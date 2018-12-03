@@ -1,5 +1,8 @@
 package nl.blackstardlb.petstore.di;
 
+import android.arch.persistence.room.Room;
+import android.content.Context;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.storage.FirebaseStorage;
@@ -8,6 +11,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import nl.blackstardlb.petstore.services.AppDatabase;
 import nl.blackstardlb.petstore.services.FirebaseImageManager;
 import nl.blackstardlb.petstore.services.ImageManager;
 import nl.blackstardlb.petstore.services.PetRepository;
@@ -44,6 +48,18 @@ public class DataModule {
     @Provides
     ImageManager providesImageManager(FirebaseStorage firebaseStorage) {
         return new FirebaseImageManager(firebaseStorage);
+    }
+
+    @Singleton
+    @Provides
+    AppDatabase providesAppDatabase(Context context) {
+        return Room.databaseBuilder(context, AppDatabase.class, "database-name").build();
+    }
+
+    @Singleton
+    @Provides
+    FavoritesService providesFavoriteService(AppDatabase appDatabase) {
+        return new FavoritesServiceImpl(appDatabase);
     }
 
     @Singleton

@@ -12,6 +12,7 @@ import butterknife.Unbinder;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import nl.blackstardlb.petstore.di.viewmodels.ViewModelFactory;
+import nl.blackstardlb.petstore.helpers.ErrorNotifier;
 import nl.blackstardlb.petstore.views.MainApplication;
 
 public abstract class BaseDialogFragment extends DialogFragment {
@@ -56,6 +57,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     }
 
     protected void showError(@Nullable Throwable throwable) {
+        ErrorNotifier.notifyError(getContext(), throwable);
     }
 
     protected void showError(@Nullable String error) {

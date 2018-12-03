@@ -106,6 +106,9 @@ public class MainActivity extends BaseActivity {
             case R.id.action_add_pet_store:
                 fragmentClass = AddPetStoreFragment.class;
                 break;
+            case R.id.action_favorites:
+                fragmentClass = FavorietenListFragment.class;
+                break;
             default:
                 fragmentClass = LoginFragment.class;
         }

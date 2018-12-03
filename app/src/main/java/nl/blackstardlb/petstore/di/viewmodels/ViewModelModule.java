@@ -15,6 +15,7 @@ import nl.blackstardlb.petstore.viewmodels.PetViewModel;
 import nl.blackstardlb.petstore.viewmodels.ProfileImageViewModel;
 import nl.blackstardlb.petstore.viewmodels.UserNameViewModel;
 import nl.blackstardlb.petstore.viewmodels.UserProfileViewModel;
+import nl.blackstardlb.petstore.views.FavorietViewModel;
 
 @Module()
 public abstract class ViewModelModule {
@@ -59,11 +60,15 @@ public abstract class ViewModelModule {
     @ViewModelKey(AddPetViewModel.class)
     abstract ViewModel bindAddPetViewModel(AddPetViewModel addPetViewModel);
 
-
     @Binds
     @IntoMap
     @ViewModelKey(PetDetailsViewModel.class)
     abstract ViewModel bindPetDetailsViewModel(PetDetailsViewModel petDetailsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavorietViewModel.class)
+    abstract ViewModel bindFavorietViewModel(FavorietViewModel favorietViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory viewModelFactory);

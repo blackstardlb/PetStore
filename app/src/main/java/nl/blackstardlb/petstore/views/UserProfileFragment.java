@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +24,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import java8.util.Optional;
 import nl.blackstardlb.petstore.R;
 import nl.blackstardlb.petstore.models.User;
@@ -54,6 +58,10 @@ public class UserProfileFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = getPrivateViewModel(UserProfileViewModel.class);
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            LoginActivity.start(getActivity());
+        }
     }
 
     @Override
@@ -63,7 +71,7 @@ public class UserProfileFragment extends BaseFragment {
         setUnbinder(unbinder);
 
         addDisposable(
-                mViewModel.getUser().subscribe(this::onUserChanged)
+                mViewModel.getUser().subscribe(this::onUserChanged, this::notifyError)
         );
     }
 
@@ -75,10 +83,20 @@ public class UserProfileFragment extends BaseFragment {
             emailAddress.setText(user.getEmail());
             displayName.setText(user.getDisplayName());
 
-            Glide.with(this)
-                    .load(mViewModel.getImageLoadSourceForUser(user))
-                    .apply(RequestOptions.noAnimation().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).error(R.drawable.ic_account_circle_black_80dp))
-                    .into(profileImage);
+            Disposable disposable = Completable.fromAction(() -> {
+                while (getActivity() == null) {
+                    Thread.sleep(1000);
+                }
+            }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(() -> {
+                Glide.with(this)
+                        .load(mViewModel.getImageLoadSourceForUser(user))
+                        .apply(
+                                RequestOptions.noAnimation().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .placeholder(R.drawable.ic_account_circle_black_80dp).error(R.drawable.ic_account_circle_black_80dp)
+                        )
+                        .into(profileImage);
+            }, this::notifyError);
+            addDisposable(disposable);
         }
     }
 
